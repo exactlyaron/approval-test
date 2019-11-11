@@ -9,33 +9,31 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
-      - restore_cache:
-          key: vulnerability-db
       - run:
           name: pull wmfs/node
           command: docker build -t test .
-  approval:
+  uat approval:
+  prod:
     docker:
       - image: circleci/node:lts
         environment:
           TZ: "Europe/London"
-    working_direcotry: ~/repo
+    working_directory: ~/repo
     steps:
       - checkout
       - setup_remote_docker
       - run:
-          name: pull node-alpine
-          command: docker tag test test:approved
-      - run:
-          name: test
-          command: docker build -t testertest .
-
+          name: prod build
+          command: docker build -t prod .
 workflows:
   version: 2
   release-branch-workflow:
     jobs:
       - staging
-      - approval:
+      - uat approval:
           type: approval
           requires:
             - staging
+      - prod:
+          requires:
+            - uat approval

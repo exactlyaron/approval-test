@@ -43,4 +43,4 @@ workflows:
             - staging
       - prod:
           requires:
-            - uat approval
+            - uat_approval

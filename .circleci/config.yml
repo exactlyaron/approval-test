@@ -13,6 +13,13 @@ jobs:
           name: pull wmfs/node
           command: docker build -t test .
   uat approval:
+    docker:
+      - image: circleci/node:lts
+        environment:
+          TZ: "Europe/London"
+      working_directory: ~/repo
+      steps:
+        - checkout
   prod:
     docker:
       - image: circleci/node:lts

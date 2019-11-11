@@ -26,6 +26,9 @@ jobs:
       - run:
           name: pull node-alpine
           command: docker tag test test:approved
+      - run:
+          name: test
+          command: docker build -t testertest .
 
 workflows:
   version: 2

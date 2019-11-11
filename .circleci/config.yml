@@ -12,14 +12,14 @@ jobs:
       - run:
           name: pull wmfs/node
           command: docker build -t test .
-  uat approval:
+  uat_approval:
     docker:
       - image: circleci/node:lts
         environment:
           TZ: "Europe/London"
-      working_directory: ~/repo
-      steps:
-        - checkout
+    working_directory: ~/repo
+    steps:
+      - checkout
   prod:
     docker:
       - image: circleci/node:lts
@@ -37,7 +37,7 @@ workflows:
   release-branch-workflow:
     jobs:
       - staging
-      - uat approval:
+      - uat_approval:
           type: approval
           requires:
             - staging

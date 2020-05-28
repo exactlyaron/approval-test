@@ -25,6 +25,18 @@ jobs:
           paths:
             - package.json
             - image.tar
+  fake staging:
+    docker:
+      - image: circleci/node:lts
+        environment:
+          TZ: "Europe/London"
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - persist_to_workspace:
+          root: .
+          paths:
+            - package.json
   test workspace:
     docker:
       - image: circleci/node:lts
@@ -71,9 +83,11 @@ workflows:
   release-branch-workflow:
     jobs:
       - staging
+      - fake staging
       - test workspace:
           requires:
             - staging
+            - fake staging
       - uat_approval:
           type: approval
           requires:

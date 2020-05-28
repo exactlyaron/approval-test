@@ -40,6 +40,10 @@ jobs:
           name: show package.json
           command: cat package.json
       - run:
+          name: Load stored Docker image
+          command: |
+            docker load -i ./image.tar
+      - run:
           name: list images
           command: docker image ls
   uat_approval:

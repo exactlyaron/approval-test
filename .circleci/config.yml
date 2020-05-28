@@ -60,7 +60,7 @@ workflows:
   release-branch-workflow:
     jobs:
       - staging
-      - test_workspace
+      - test workspace
       - uat_approval:
           type: approval
           requires:

@@ -34,8 +34,11 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: .
+          at: /tmp/workspace
       - setup_remote_docker
+      - run:
+          name: move package.json
+          command: mv /tmp/workspace/package.json .
       - run:
           name: show package.json
           command: cat package.json

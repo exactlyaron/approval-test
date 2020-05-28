@@ -12,6 +12,29 @@ jobs:
       - run:
           name: pull wmfs/node
           command: docker build -t test .
+      - run:
+          name: update package.json
+          command: |
+            sudo npm install -g npm-check-updates
+            ncu -u
+      - persist_to_workspace:
+          root: .
+          paths:
+            - package.json
+  test workspace:
+    docker:
+      - image: circleci/node:lts
+        environment:
+          TZ: "Europe/London"
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - setup_remote_docker
+      - run:
+          name: show package.json
+          command: cat package.json
   uat_approval:
     docker:
       - image: circleci/node:lts
@@ -37,10 +60,12 @@ workflows:
   release-branch-workflow:
     jobs:
       - staging
+      - test_workspace
       - uat_approval:
           type: approval
           requires:
             - staging
+            - test workspace
       - prod:
           requires:
             - uat_approval

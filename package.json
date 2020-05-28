@@ -1,0 +1,26 @@
+{
+  "name": "test",
+  "version": "0.0.0-semantically-released",
+  "decsription": "blah blah",
+  "keywords": [
+    "blah",
+    "blah"
+  ],
+  "homepage": "https://github.com/exactlyaron/approval-test#readme",
+  "bugs": {
+    "url": "https://github.com/exactlyaron/approval-test/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/exactlyaron/approval-test.git"
+  },
+  "license": "MIT",
+  "author": "Aron Moore",
+  "dependencies": {
+    "@wmfs/food-hygiene-blueprint": "1.0.0"
+  },
+  "devDependencies": {
+  },
+  "scripts": {
+  }
+}

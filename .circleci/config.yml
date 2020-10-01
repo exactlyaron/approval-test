@@ -57,7 +57,10 @@ jobs:
     steps:
       - checkout
       - run:
-          command: exit 1
+          command: npm install
+      - slack/notify:
+          channel: C01BKV32XML
+          message: YAY this job passed
       - slack/status:
           mentions: 'UAB9DNB9U'
           fail_only: true

@@ -48,14 +48,6 @@ jobs:
       - run:
           name: list images
           command: docker image ls
-  uat_approval:
-    docker:
-      - image: circleci/node:lts
-        environment:
-          TZ: "Europe/London"
-    working_directory: ~/repo
-    steps:
-      - checkout
   prod:
     docker:
       - image: circleci/node:lts
@@ -80,9 +72,6 @@ workflows:
       - test workspace:
           requires:
             - staging
-      - uat_approval:
-          requires:
-            - test workspace
       - prod:
           requires:
-            - uat_approval
+            - test workspace

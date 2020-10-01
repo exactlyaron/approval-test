@@ -57,7 +57,7 @@ jobs:
     steps:
       - checkout
       - run:
-          command: npm run test
+          command: exit 1
       - slack/status:
           mentions: 'UAB9DNB9U'
           fail_only: true

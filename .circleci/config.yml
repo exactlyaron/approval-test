@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 orbs:
   slack: circleci/slack@3.4.2
 jobs:
@@ -42,12 +42,6 @@ jobs:
           name: move package.json
           command: mv /tmp/workspace/package.json .
       - run:
-          name: show package.json
-          command: cat package.json
-      - run:
-          name: list files
-          command: ls -la
-      - run:
           name: Load stored Docker image
           command: |
             docker load -i /tmp/workspace/image.tar
@@ -74,18 +68,10 @@ jobs:
       - run:
           name: prod build
           command: docker build -t prod .
-  release:
-    docker:
-      - image: circleci/node:lts
-        environment:
-          TZ: "Europe/London"
-    working_directory: ~/repo
-    steps:
-      - checkout
       - slack/notify:
-          color: "#42e2f4"
-          mentions: "aron,"
-          message: It's worked!
+          color: '#42e2f4'
+          mentions: 'Aron'
+          message: It's worked
 workflows:
   version: 2
   release-branch-workflow:
@@ -100,6 +86,3 @@ workflows:
       - prod:
           requires:
             - uat_approval
-      - release:
-          requires:
-            - prod

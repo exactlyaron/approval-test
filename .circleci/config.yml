@@ -58,7 +58,7 @@ jobs:
       - checkout
       - run:
           command: npm run test
-      slack/status:
+      - slack/status:
         color: '#f20f0f'
         mentions: 'UAB9DNB9U'
         fail_only: true

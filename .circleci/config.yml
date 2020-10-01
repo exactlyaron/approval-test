@@ -48,6 +48,21 @@ jobs:
       - run:
           name: list images
           command: docker image ls
+  test:
+    docker:
+      - image: circleci/node:lts
+        environment:
+          TZ: "Europe/London"
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run:
+          command: npm run test
+      slack/status:
+        color: '#f20f0f'
+        mentions: 'UAB9DNB9U'
+        fail_only: true
+        failure_message: Oh noes it's failed!
   prod:
     docker:
       - image: circleci/node:lts
@@ -72,6 +87,9 @@ workflows:
       - test workspace:
           requires:
             - staging
-      - prod:
+      - test:
           requires:
             - test workspace
+      - prod:
+          requires:
+            - test

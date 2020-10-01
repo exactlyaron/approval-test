@@ -70,7 +70,7 @@ jobs:
           command: docker build -t prod .
       - slack/notify:
           color: '#42e2f4'
-          mentions: 'Aron'
+          mentions: 'UAB9DNB9U'
           message: It's worked
 workflows:
   version: 2

@@ -65,6 +65,40 @@ jobs:
           mentions: 'UAB9DNB9U'
           fail_only: true
           failure_message: Oh noes it's failed!
+  vulnerability scan:
+    docker:
+      - image: circleci/node:lts
+        environment:
+          TZ: "Europe/London"
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /tmp/workspace
+      - setup_remote_docker
+      - restore_cache:
+          key: vulnerability-db
+      - run:
+          name: Pull node:latest
+          command: docker pull node:latest
+      - run:
+          name: Scan api and app images
+          command: |
+            VERSION=$(
+              curl --silent "https://api.github.com/repos/aquasecurity/trivy/releases/latest" | \
+              grep '"tag_name":' | \
+              sed -E 's/.*"v([^"]+)".*/\1/'
+            )
+            wget https://github.com/aquasecurity/trivy/releases/download/v${VERSION}/trivy_${VERSION}_Linux-64bit.tar.gz
+            tar zxvf trivy_${VERSION}_Linux-64bit.tar.gz
+            ./trivy --exit-code 1 --severity HIGH --quiet --auto-refresh node:latest
+      - save_cache:
+          key: vulnerability-db
+          paths:
+            - $HOME/.cache/trivy
+      - slack/status:
+          fail_only: true
+          failure_message: Oh no!  There is a critical security vulnerability!
   prod:
     docker:
       - image: circleci/node:lts
@@ -92,6 +126,9 @@ workflows:
       - test:
           requires:
             - test workspace
-      - prod:
+      - scan:
           requires:
             - test
+      - prod:
+          requires:
+            - scan

@@ -114,7 +114,7 @@ jobs:
       - slack/notify:
           color: '#42e2f4'
           mentions: 'UAB9DNB9U'
-          message: It's worked
+          message: ":tada: It's worked"
 workflows:
   version: 2
   release-branch-workflow:

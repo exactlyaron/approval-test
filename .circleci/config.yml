@@ -59,6 +59,8 @@ jobs:
       - run:
           command: npm install
       - slack/notify:
+          include_job_number_field: false
+          include_project_field: false
           channel: C01BKV32XML
           message: ":tada: YAY this job passed"
       - slack/status:

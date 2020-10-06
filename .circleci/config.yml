@@ -62,7 +62,7 @@ jobs:
           include_job_number_field: false
           include_project_field: false
           channel: C01BKV32XML
-          message: ":tada: YAY this job passed"
+          message: "YAY this job passed :tada:"
       - slack/status:
           mentions: 'UAB9DNB9U'
           fail_only: true
@@ -99,8 +99,10 @@ jobs:
           paths:
             - $HOME/.cache/trivy
       - slack/status:
+          include_job_number_field: false
+          include_project_field: false
           fail_only: true
-          failure_message: Oh no!  There is a critical security vulnerability!
+          failure_message: "Oh no!  There is a critical security vulnerability! :scream: :cry:"
   prod:
     docker:
       - image: circleci/node:lts

@@ -103,7 +103,7 @@ jobs:
           include_job_number_field: false
           include_project_field: false
           fail_only: true
-          failure_message: "Oh no!  There is a critical security vulnerability in $CIRCLE_JOB! :scream: :cry:"
+          failure_message: "Oh no!  There is a critical security vulnerability in $CIRCLE_PROJECT_REPONAME! :scream: :cry:"
   prod:
     docker:
       - image: circleci/node:lts
